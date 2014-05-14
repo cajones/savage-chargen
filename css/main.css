@@ -4,8 +4,16 @@
    Author's custom styles
    ========================================================================== */
 
+label {
+    min-width: 100px;
+}
 
-
+ul {
+    padding-left: 0;
+}
+.skills li {
+    list-style-type: none;
+}
 
 
 

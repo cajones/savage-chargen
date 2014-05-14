@@ -49,14 +49,59 @@
 
         <div class="container" ng-app>
             <section id="application" ng-controller="CharGen">
-                <span>{{character.agility.value}}</span>
-                <ul>
+                <div>
+                    <span>Name</span>
+                    <input ng-model="character.name" />
+                </div>
+                <h3>Attributes</h3>
+                <div>
+                    <label>Agility</label>
+                    <span>{{character.agility.value}}</span>
+                    <button ng-click="character.agility.decrease()" class="btn">-</button>
+                    <button ng-click="character.agility.increase()" class="btn">+</button>
+                </div>
+                <div>
+                    <label>Smarts</label>
+                    <span>{{character.smarts.value}}</span>
+                    <button ng-click="character.smarts.decrease()" class="btn">-</button>
+                    <button ng-click="character.smarts.increase()" class="btn">+</button>
+                </div>
+                <div>
+                    <label>Spirit</label>
+                    <span>{{character.spirit.value}}</span>
+                    <button ng-click="character.spirit.decrease()" class="btn">-</button>
+                    <button ng-click="character.spirit.increase()" class="btn">+</button>
+                </div>
+                <div>
+                    <label>Strength</label>
+                    <span>{{character.strength.value}}</span>
+                    <button ng-click="character.strength.decrease()" class="btn">-</button>
+                    <button ng-click="character.strength.increase()" class="btn">+</button>
+                </div>
+                <div>
+                    <label>Vigor</label>
+                    <span>{{character.vigor.value}}</span>
+                    <button ng-click="character.vigor.decrease()" class="btn">-</button>
+                    <button ng-click="character.vigor.increase()" class="btn">+</button>
+                </div>
+                <h3>Skills</h3>
+                <ul class="skills">
                     <li ng-repeat="skill in character.skills">
-                        <span>{{skill.name}}</span>
+                        <label>{{skill.name}}</label>
                         <span>{{skill.value}}</span>
+                        <button ng-click="skill.decrease()" class="btn">-</button>
+                        <button ng-click="skill.increase()" class="btn">+</button>
                     </li>
                 </ul>
-                <button ng-click="learnShootingSkill()" class="btn">Learn Shooting</button>
+                <div ng-if="character.isUnskilled('Fighting')">
+                    <button ng-click="learnFightingSkill()" class="btn">Learn Fighting</button>
+                </div>
+                <div ng-if="character.isUnskilled('Shooting')">
+                    <button ng-click="learnShootingSkill()" class="btn">Learn Shooting</button>
+                </div>
+                <div ng-if="character.isUnskilled('Throwing')">
+                    <button ng-click="learnThrowingSkill()" class="btn">Learn Throwing</button>
+                </div>
             </section>
             <hr>
         </div> <!-- /container -->
