@@ -1,0 +1,20 @@
+{
+  "name": "savage",
+  "version": "0.0.0",
+  "description": "",
+  "main": "savage.min.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "browserify": "^3.46.1",
+    "grunt-browserify": "^2.0.8",
+    "matchdep": "^0.3.0",
+    "grunt-mocha-test": "^0.10.2",
+    "uglifyify": "^2.1.1",
+    "expect.js": "^0.3.1"
+  }
+}

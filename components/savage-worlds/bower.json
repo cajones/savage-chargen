@@ -1,0 +1,28 @@
+{
+  "name": "savage-worlds",
+  "main": "savage.min.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/cajones/savage.js",
+  "authors": [
+    "chrisjones0099@hotmail.com"
+  ],
+  "moduleType": [
+    "amd",
+    "node"
+  ],
+  "keywords": [
+    "savage",
+    "worlds",
+    "rpg",
+    "character",
+    "generation"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
