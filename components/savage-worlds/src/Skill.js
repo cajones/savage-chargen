@@ -3,10 +3,19 @@ var Attribute = require('./Attribute');
 
 var Skill = function (initialValue, name, linkedAttribute) {
     Trait.apply(this, arguments);
-    this.name = name;
-    this.linkedAttribute = linkedAttribute || Attribute.Smarts;
+    Object.defineProperty(this, 'name', {
+        value: name
+    });
+    Object.defineProperty(this, 'linkedAttribute', {
+        value: linkedAttribute || Attribute.Smarts
+    });
 };
-Skill.prototype = Trait.prototype;
+
+Skill.prototype = new Trait();
+
+Skill.prototype.toString = function () {
+    return this.name;
+};
 
 //Agility Skills
 Skill.Boating = function () {
@@ -68,12 +77,9 @@ Skill.Taunt = function () {
 Skill.Tracking = function () {
     return new Skill('d4', 'Tracking', Attribute.Smarts);
 };
-Skill.Knowledge = function (specialty) {
-    return new Skill('d4', 'Knowledge (' + specialty + ')', Attribute.Smarts);
-};
 
 //Spirit Skills
-Skill.Initimdation = function () {
+Skill.Intimidation = function () {
     return new Skill('d4', 'Intimidation', Attribute.Spirit);
 };
 Skill.Persuasion = function (specialty) {

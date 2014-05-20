@@ -9,10 +9,14 @@ var Collection = function() {
 Collection.prototype = {
     add: function (key, value) {
         if(this.contains(key)) return false;
+        if(arguments.length === 1 && typeof key === 'object' && key.toString) {
+            value = key;
+            key = value.toString();
+        }
         this[key] = value;
         return true;
     },
-    remove: function (key, value) {
+    remove: function (key) {
         if(!this.contains(key)) return false;
         delete this[key];
         return true;

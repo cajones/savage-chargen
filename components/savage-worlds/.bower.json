@@ -24,13 +24,14 @@
     "test",
     "tests"
   ],
-  "_release": "ce18b7fa45",
+  "_release": "8a7837401f",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "ce18b7fa45f70d78c7fc33fc78472e2ebf5275f2"
+    "commit": "8a7837401ff1a791d91cd03e53c47b8e029ca5a4"
   },
   "_source": "git://github.com/cajones/savage.js.git",
   "_target": "*",
-  "_originalSource": "savage-worlds"
+  "_originalSource": "savage-worlds",
+  "_direct": true
 }

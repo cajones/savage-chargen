@@ -8,6 +8,8 @@ var Character = function (name) {
 
     this.rank = new Rank();
 
+    this.pace = 6;
+
     this.race = null;
 
     this[Attribute.Agility] = new Trait('d4');
@@ -38,7 +40,7 @@ var Character = function (name) {
 
     this.skills = new Collection();
     this.edges = new Collection();
-    this.hinderances = new Collection();
+    this.hindrances = new Collection();
 };
 
 Character.prototype.getAttributePoints = function () {
@@ -81,6 +83,21 @@ Character.prototype.learn = function (skill) {
         this.skills[skill.name] = skill;
     }
     return this;
+};
+
+Character.prototype.toString = function () {
+    //default formatter
+    var output = '[Character' +
+        (this.name ? ' ' + this.name : '') +
+        (this.race ? this.race.toString() : '') +
+        this.rank.toString() +
+        ',Ag(' + this.agility.value + ')' +  
+        ',Sm(' + this.smarts.value + ')' +  
+        ',Sp(' + this.spirit.value + ')' +  
+        ',St(' + this.strength.value + ')' +  
+        ',Vi(' + this.vigor.value + ')' +  
+        ']';
+    return output;
 };
 
 module.exports = Character;

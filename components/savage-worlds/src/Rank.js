@@ -18,4 +18,8 @@ var Rank = function (xp) {
     
 };
 
+Rank.prototype.toString = function () {
+    return this.name + '(' + this.xp + ')';
+};
+
 module.exports = Rank;
