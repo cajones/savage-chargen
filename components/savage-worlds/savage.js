@@ -12,7 +12,7 @@ Attribute.Strength = 'strength';
 Attribute.Vigor = 'vigor';
 
 module.exports = Attribute;
-},{"./Trait":10}],2:[function(require,module,exports){
+},{"./Trait":9}],2:[function(require,module,exports){
 var Collection = require('./Collection');
 var Trait = require('./Trait');
 var Rank = require('./Rank');
@@ -116,7 +116,7 @@ Character.prototype.toString = function () {
 };
 
 module.exports = Character;
-},{"./Attribute":1,"./Collection":3,"./Rank":7,"./Trait":10}],3:[function(require,module,exports){
+},{"./Attribute":1,"./Collection":3,"./Rank":6,"./Trait":9}],3:[function(require,module,exports){
 var Collection = function() {
     Object.defineProperty(this, 'length', {
         get: function () {
@@ -128,9 +128,9 @@ var Collection = function() {
 Collection.prototype = {
     add: function (key, value) {
         if(this.contains(key)) return false;
-        if(arguments.length = 1 && typeof key === 'object' && key.toString) {
+        if(arguments.length === 1 && typeof key === 'object' && key.toString) {
             value = key;
-            key = value.toString()
+            key = value.toString();
         }
         this[key] = value;
         return true;
@@ -164,93 +164,187 @@ Collection.prototype = {
 };
 module.exports = Collection;
 },{}],4:[function(require,module,exports){
-var Hindrance = function (name, cost) {
+var Hindrance = function (name, severity, effect) {
     Object.defineProperty(this, 'name', {
         value: name
     });
-    Object.defineProperty(this, 'cost', {
-        value: /^Major$/i.test(cost) ? 'Major' : 'Minor'
+    Object.defineProperty(this, 'effect', {
+        value: effect
+    });
+    Object.defineProperty(this, 'severity', {
+        value: /^Major$/i.test(severity) ? 'Major' : 'Minor'
+    });
+    Object.defineProperty(this, 'isMajor', {
+        value: /^Major$/i.test(severity)
     });
 };
 
 Hindrance.prototype.toString = function () {
-    return this.name;
+    return this.name + '(' + this.severity +')';
 };
 
-Hindrance.AllThumbs = new Hindrance('All Thumbs');
-Hindrance.Anemic = new Hindrance('Anemic');
-Hindrance.Arrogant = new Hindrance('Arrogant', 'Major');
-Hindrance.BadEyes = new Hindrance('Bad Eyes', 'Major');
-Hindrance.SlightlyBadEyes = new Hindrance('Bad Eyes');
-Hindrance.BadLuck = new Hindrance('Bad Luck', 'Major');
-Hindrance.BigMouth = new Hindrance('Bad Eyes');
-Hindrance.Blind = new Hindrance('Blind', 'Major');
-Hindrance.Bloodthirsty = new Hindrance('Bloodthirsty', 'Major');
-Hindrance.Cautious = new Hindrance('Cautious');
-Hindrance.Clueless = new Hindrance('Clueless', 'Major');
-Hindrance.CodeOfHonour = new Hindrance('Code Of Honour', 'Major');
-Hindrance.DeathWish = new Hindrance('Death Wish', 'Major');
-Hindrance.Delusional = new Hindrance('Delusional', 'Major');
-Hindrance.SlightlyDelusional = new Hindrance('Delusional');
-Hindrance.DoubtingThomas = new Hindrance('Doubting Thomas');
-Hindrance.Elderly = new Hindrance('Elderly', 'Major');
-Hindrance.Enemy = new Hindrance('Enemy', 'Major');
-Hindrance.EnemyMinor = new Hindrance('Enemy');
-Hindrance.Greedy = new Hindrance('Greedy', 'Major');
-Hindrance.SlightlyGreedy = new Hindrance('Greedy');
-Hindrance.Habit = new Hindrance('Habit', 'Major');
-Hindrance.SlightHabit = new Hindrance('Habit');
-Hindrance.HardOfHearing = new Hindrance('Hard of Hearing', 'Major');
-Hindrance.SlightlyHardOfHearing = new Hindrance('Hard of Hearing');
+Hindrance.AllThumbs = function () {
+    return new Hindrance('All Thumbs', 'Minor', '–2 Repair; Roll of 1 causes malfunction');
+};
+Hindrance.Anemic = function () {
+    return new Hindrance('Anemic', 'Minor','–2 to Fatigue tests');
+};
+Hindrance.Arrogant = function () {
+    return new Hindrance('Arrogant', 'Major', 'Must humiliate opponent, challenge the ‘leader’');
+};
+Hindrance.BadEyes = function () {
+    return new Hindrance('Bad Eyes', 'Major', '–2 to attack or notice something more than 5” distant');
+};
+Hindrance.SlightlyBadEyes = function () {
+    return new Hindrance('Bad Eyes', 'Minor', 'Without corrective lens: –2 to attack or notice something more than 5” distant');
+};
+Hindrance.BadLuck = function () {
+    return new Hindrance('Bad Luck', 'Major', 'One less Benny per session');
+};
+Hindrance.BigMouth = function () {
+    return new Hindrance('Big Mouth', 'Minor', 'Unable to keep a secret, blabs at the worst time');
+};
+Hindrance.Blind = function () {
+    return new Hindrance('Blind', 'Major', '–6 to all actions that rely on vision; –2 on social rolls, gain additional Edge');
+};
+Hindrance.Bloodthirsty = function () {
+    return new Hindrance('Bloodthirsty', 'Major', 'Never takes prisoner');
+};
+Hindrance.Cautious = function () {
+    return new Hindrance('Cautious', 'Minor', 'Character is overly careful');
+};
+Hindrance.Clueless = function () {
+    return new Hindrance('Clueless', 'Major', '-2 to most Common Knowledge rolls');
+};
+Hindrance.CodeOfHonour = function () {
+    return new Hindrance('Code of Honor', 'Major', 'Character keeps his word and acts like a gentleman');
+};
+Hindrance.DeathWish = function () {
+    return new Hindrance('Death Wish', 'Major', 'Hero wants to die after completing some task');
+};
+Hindrance.Delusional = function () {
+    return new Hindrance('Delusional', 'Major', 'Character suffers from grave delusions');
+};
+Hindrance.SlightlyDelusional = function () {
+    return new Hindrance('Delusional', 'Minor', 'Character suffers from mild delusions');
+};
+Hindrance.DoubtingThomas = function () {
+    return new Hindrance('Doubting Thomas', 'Minor', 'Character doesn’t believe in the supernatural');
+};
+Hindrance.Elderly = function () {
+    return new Hindrance('Elderly', 'Major', 'Pace –1, –1 to Strength and Vigor die types; +5 skill points for any skill linked to Smarts');
+};
+Hindrance.Enemy = function () {
+    return new Hindrance('Enemy', 'Major', 'Character has a recurring nemesis of some sort');
+};
+Hindrance.MinorEnemy = function () {
+    return new Hindrance('Enemy', 'Minor', 'Character has a recurring nemesis of some sort');
+};
+Hindrance.Greedy = function () {
+    return new Hindrance('Greedy', 'Major', 'Character is obsessed with wealth');
+};
+Hindrance.SlightlyGreedy = function () {
+    return new Hindrance('Greedy', 'Minor', 'Character is inclined to obtain wealth');
+};
+Hindrance.Habit = function () {
+    return new Hindrance('Habit', 'Major', 'Charisma –1; Fatigue rolls when deprived of Major Habits');
+};
+Hindrance.SlightHabit = function () {
+    return new Hindrance('Habit', 'Minor', 'Charisma –1');
+};
+Hindrance.HardOfHearing = function () {
+    return new Hindrance('Hard of Hearing', 'Major', '–2 to Notice sounds; automatic failure if completely deaf');
+};
+Hindrance.SlightlyHardOfHearing = function () {
+    return new Hindrance('Hard of Hearing', ' Minor', '–2 to Notice sounds; automatic failure if completely deaf');
+};
+Hindrance.Heroic = function () {
+    return new Hindrance('Heroic', 'Major','Character always helps those in need');
+};
+Hindrance.Illiterate = function () {
+    return new Hindrance('Illiterate', 'Minor', 'Hero is unable to read or write');
+};
+Hindrance.Lame = function () {
+    return new Hindrance('Lame', 'Major', '–2 Pace and running die is a d4');
+};
+Hindrance.Loyal = function () {
+    return new Hindrance('Loyal', 'Minor', 'The hero tries to never betray or disappoint his friends');
+};
+Hindrance.Mean = function () {
+    return new Hindrance('Mean', 'Minor', '–2 to his Charisma for ill-temper and surliness');
+};
+Hindrance.Obese = function () {
+    return new Hindrance('Obese', 'Minor', '+1 Toughness, –1 Pace, d4 running die');
+};
+Hindrance.OneArm = function () {
+    return new Hindrance('One Arm', 'Major', '–4 to tasks requiring two arms');
+};
+Hindrance.OneEye = function () {
+    return new Hindrance('One Eye', 'Major', '-1 Charisma, –2 to rolls requiring depth perception');
+};
+Hindrance.OneLeg = function () {
+    return new Hindrance('One Leg', 'Major', 'Pace –2, d4 running die, –2 to rolls requiring mobility, –2 to Swimming skill');
+};
+Hindrance.Outsider = function () {
+    return new Hindrance('Outsider', 'Minor', '-2 Charisma');
+};
+Hindrance.Overconfident = function () {
+    return new Hindrance('Overconfident', 'Major', 'The hero believes he can do anything');
+};
+Hindrance.Pacifist = function () {
+    return new Hindrance('Pacifist', 'Major', 'Won’t harm living creatures');
+};
+Hindrance.MinorPacifist = function () {
+    return new Hindrance('Pacifist', 'Minor', 'Character fights only in self-defense');
+};
+Hindrance.Phobia = function () {
+    return new Hindrance('Phobia', 'Major', '–4 Trait tests when near the phobia');
+};
+Hindrance.SlightPhobia = function () {
+    return new Hindrance('Phobia', 'Minor', '–2 Trait tests when near the phobia');
+};
+Hindrance.Poverty = function () {
+    return new Hindrance('Poverty', 'Minor', 'Half starting funds, inability to hang onto future income');
+};
+Hindrance.Quirk = function () {
+    return new Hindrance('Quirk', 'Minor', 'Character has some minor but persistent foible');
+};
+Hindrance.Small = function () {
+    return new Hindrance('Small', 'Major', '–1 Toughness');
+};
+Hindrance.Stubborn = function () {
+    return new Hindrance('Stubborn', 'Minor', 'Hero always wants his way');
+};
+Hindrance.Ugly = function () {
+    return new Hindrance('Ugly', 'Minor', '–2 Charisma due to appearance');
+};
+Hindrance.Vengeful = function () {
+    return new Hindrance('Vengeful', 'Major', 'Character holds a grudge; will kill');
+};
+Hindrance.SlightlyVengeful = function () {
+    return new Hindrance('Vengeful', 'Minor', 'Character holds a grudge');
+};
+Hindrance.Vow = function () {
+    return new Hindrance('Vow', 'Major', 'A pledge to a group, deity, or religion');
+};
+Hindrance.MinorVow = function () {
+    return new Hindrance('Vow', 'Minor', 'A pledge to a group, deity, or religion');
+};
+Hindrance.Wanted = function () {
+    return new Hindrance('Wanted', 'Major', 'The character is a criminal of some sort');
+};
+Hindrance.SlightlyWanted = function () {
+    return new Hindrance('Wanted', 'Minor','The character is a criminal of some sort');
+};
+Hindrance.Yellow = function () {
+    return new Hindrance('Yellow', 'Major', 'The character is cowardly and suffers –2 to Fear checks');
+};
+Hindrance.Young = function () {
+    return new Hindrance('Young', 'Major', 'Only 3 points for Attributes, 10 skill points, +1 Benny per session');
+};
 
 module.exports = Hindrance;
 
-/*
-All Thumbs Minor –2 Repair; Roll of 1 causes malfunction
-Anemic Minor –2 to Fatigue tests
-Arrogant Major Must humiliate opponent, challenge the ‘leader’
-Bad Eyes Minor/Major –2 to attack or notice something more than 5” distant
-Bad Luck Major One less Benny per session
-Big Mouth Minor Unable to keep a secret, blabs at the worst time
-Blind Major –6 to all actions that rely on vision; –2 on social rolls, gain additional Edge
-Bloodthirsty Major Never takes prisoners
-Cautious Minor Character is overly careful
-Clueless Major –2 to most Common Knowledge rolls
-Code of Honor Major Character keeps his word and acts like a gentleman
-Curious Major Character wants to know about everything
-Death Wish Minor Hero wants to die after completing some task
-Delusional Minor/Major Character suffers from grave delusions
-Doubting Thomas Minor Character doesn’t believe in the supernatural
-Elderly Major Pace –1, –1 to Strength and Vigor die types; +5 skill points for any skill linked to Smarts
-Enemy Minor/Major Character has a recurring nemesis of some sort
-Greedy Minor/Major Character is obsessed with wealth
-Habit Minor/Major Charisma –1; Fatigue rolls when deprived of Major Habits
-Hard of Hearing Minor/Major –2 to Notice sounds; automatic failure if completely deaf
-Heroic Major Character always helps those in need
-Illiterate Minor Hero is unable to read or write
-Lame Major –2 Pace and running die is a d4
-Loyal Minor The hero tries to never betray or disappoint his friends
-Mean Minor –2 to his Charisma for ill-temper and surliness
-Obese Minor +1 Toughness, –1 Pace, d4 running die
-One Arm Major –4 to tasks requiring two arms
-One Eye Major –1 Charisma, –2 to rolls requiring depth perception
-One Leg Major Pace –2, d4 running die, –2 to rolls requiring mobility, –2 to Swimming skill
-Outsider Minor –2 Charisma, treated badly by those of dominant society
-Overconfident Major The hero believes he can do anything
-Pacifist Minor/Major Character fights only in self-defense as a Minor Hindrance;
- won’t harm living creatures as Major Hindrance
-Phobia Minor/Major –2 or –4 to Trait tests when near the phobia
-Poverty Minor Half starting funds, inability to hang onto future income
-Quirk Minor Character has some minor but persistent foible
-Small Major –1 Toughness
-Stubborn Minor Hero always wants his way
-Ugly Minor –2 Charisma due to appearance
-Vengeful Minor/Major Character holds a grudge; will kill as a Major Hindrance
-Vow Minor/Major A pledge to a group, deity, or religion
-Wanted Minor/Major The character is a criminal of some sort
-Yellow Major The character is cowardly and suffers –2 to Fear checks
-Young Major 3 points for Attributes, 10 skill points, +1 Benny per session
-*/
 },{}],5:[function(require,module,exports){
 var Race = function (name) {
     this.name = name;
@@ -263,19 +357,6 @@ Race.prototype.toString = function () {
 Race.Human = new Race('Human');
 module.exports = Race;
 },{}],6:[function(require,module,exports){
-var RandomNameGenerator = function () {
-};
-
-RandomNameGenerator.prototype.fullname = function () {
-
-};
-
-var firstnames = [
-];
-var lastnames = [
-];
-module.exports = RandomNameGenerator;
-},{}],7:[function(require,module,exports){
 var Rank = function (xp) {
     this.xp = parseInt(xp) || 0;
     Object.defineProperty(this, 'name', {
@@ -301,7 +382,7 @@ Rank.prototype.toString = function () {
 };
 
 module.exports = Rank;
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(function () {
@@ -318,10 +399,11 @@ module.exports = Rank;
         Character: require('./Character'),
         Attribute: require('./Attribute'),
         Skill: require('./Skill'),
-        Race: require('./Race')
+        Race: require('./Race'),
+        Hindrance: require('./Hindrance')
     };
 }));
-},{"./Attribute":1,"./Character":2,"./Race":5,"./Skill":9}],9:[function(require,module,exports){
+},{"./Attribute":1,"./Character":2,"./Hindrance":4,"./Race":5,"./Skill":8}],8:[function(require,module,exports){
 var Trait = require('./Trait');
 var Attribute = require('./Attribute');
 
@@ -336,9 +418,11 @@ var Skill = function (initialValue, name, linkedAttribute) {
 };
 
 Skill.prototype = new Trait();
+
 Skill.prototype.toString = function () {
     return this.name;
-}
+};
+
 //Agility Skills
 Skill.Boating = function () {
     return new Skill('d4', 'Boating', Attribute.Agility);
@@ -414,7 +498,7 @@ Skill.Climbing = function (specialty) {
 };
 
 module.exports = Skill;
-},{"./Attribute":1,"./Trait":10}],10:[function(require,module,exports){
+},{"./Attribute":1,"./Trait":9}],9:[function(require,module,exports){
 var scale = ['d4', 'd6', 'd8', 'd10', 'd12', 'd12+1', 'd12+2', 'd12+3', 'd12+4'];
 var Trait = function (initialValue) {
     var _factor = initialValue ? scale.indexOf(initialValue) : 0;
@@ -445,5 +529,10 @@ Trait.prototype.decrease = function () {
     return scale[--this.factor];
 };
 
+Trait.prototype.toString = function () {
+    return '[Trait ' + this.value + ']';
+};
+
 module.exports = Trait;
-},{}]},{},[1,2,3,4,5,6,7,8,9,10])
+
+},{}]},{},[1,2,3,4,5,6,7,8,9])

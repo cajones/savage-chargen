@@ -115,13 +115,13 @@
 
                 <section>
                     <h1>3. Skills</h1>
-                    <p>Are you a fighter? or a scolar? You have <em>15 points</em> to spend.</p>
+                    <p>Are you a lover or a fighter? a thug or a scolar? You have <em>15 points</em> to spend.</p>
                     <div>
                         <label>Skill Points Spent</label>
                         <span>{{character.getSkillPoints()}}/15</span>
                     </div>
                     
-                    <ul class="skills">
+                    <ul class="skills three-column">
                         <li ng-repeat="skill in character.skills">
                             <label>{{skill.name}}</label>
                             <span>{{skill.value}}</span>
@@ -131,34 +131,64 @@
                         </li>
                     </ul>
                     <h2>Available Skills</h2>
-                    <h3 ng-if="availableAgilitySkills().length">Agility</h3>
-                    <ul  class="skills">
-                        <li ng-repeat="skill in availableAgilitySkills()">
-                            <button ng-click="learn(skill)" class="btn"><span class="glyphicon glyphicon-book"></span> &nbsp; Learn {{skill}}</button>
+                    <ul class="three-column">
+                        <li>
+                            <h3 ng-if="availableAgilitySkills().length">Agility</h3>
+                            <ul  class="skills">
+                                <li ng-repeat="skill in availableAgilitySkills()">
+                                    <button ng-click="learn(skill)" class="btn"><span class="glyphicon glyphicon-book"></span> &nbsp; Learn {{skill}}</button>
+                                </li>
+                            </ul>
                         </li>
-                    </ul>
-                    <h3 ng-if="availableSmartsSkills().length">Smarts</h3>
-                    <ul  class="skills">
-                        <li ng-repeat="skill in availableSmartsSkills()">
-                            <button ng-click="learn(skill)" class="btn"><span class="glyphicon glyphicon-book"></span> &nbsp; Learn {{skill}}</button>
+                        <li>
+                            <h3 ng-if="availableSmartsSkills().length">Smarts</h3>
+                            <ul  class="skills">
+                                <li ng-repeat="skill in availableSmartsSkills()">
+                                    <button ng-click="learn(skill)" class="btn"><span class="glyphicon glyphicon-book"></span> &nbsp; Learn {{skill}}</button>
+                                </li>
+                            </ul>
                         </li>
-                    </ul>
-                    <h3 ng-if="availableSpiritSkills().length">Spirit</h3>
-                    <ul  class="skills">
-                        <li ng-repeat="skill in availableSpiritSkills()">
-                            <button ng-click="learn(skill)" class="btn"><span class="glyphicon glyphicon-book"></span> &nbsp; Learn {{skill}}</button>
+                        <li>
+                            <h3 ng-if="availableSpiritSkills().length">Spirit</h3>
+                            <ul  class="skills">
+                                <li ng-repeat="skill in availableSpiritSkills()">
+                                    <button ng-click="learn(skill)" class="btn"><span class="glyphicon glyphicon-book"></span> &nbsp; Learn {{skill}}</button>
+                                </li>
+                            </ul>
                         </li>
-                    </ul>
-                    <h3 ng-if="availableStrengthSkills().length">Strength</h3>
-                    <ul  class="skills">
-                        <li ng-repeat="skill in availableStrengthSkills()">
-                            <button ng-click="learn(skill)" class="btn"><span class="glyphicon glyphicon-book"></span> &nbsp; Learn {{skill}}</button>
+                        <li>
+                            <h3 ng-if="availableStrengthSkills().length">Strength</h3>
+                            <ul  class="skills">
+                                <li ng-repeat="skill in availableStrengthSkills()">
+                                    <button ng-click="learn(skill)" class="btn"><span class="glyphicon glyphicon-book"></span> &nbsp; Learn {{skill}}</button>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </section>
 
                 <section>
                     <h1>4. Edges &amp; Hinderances</h1>
+                    <ul class="hindrances">
+                        <li ng-repeat="hindrance in character.hindrances">
+                            <label>{{hindrance.name}}</label>
+                            <span>{{hindrance.severity}}</span>
+                            <p>{{hindrance.effect}}</p>
+                            <button ng-click="character.hindrances.remove(hindrance)" class="btn">Remove</button>
+                        </li>
+                    </ul>
+                    <h2>Available Minor Hindrances</h2>
+                    <ul class="hindrances three-column">
+                        <li ng-repeat="hindrance in availableMinorHindrances">
+                            <button ng-click="character.hindrances.add(hindrance)" class="btn">{{hindrance.name}}</button>
+                        </li>
+                    </ul>
+                    <h2>Available Major Hindrances</h2>
+                    <ul class="hindrances three-column">
+                        <li ng-repeat="hindrance in availableMajorHindrances">
+                            <button ng-click="character.hindrances.add(hindrance)" class="btn">{{hindrance.name}}</button>
+                        </li>
+                    </ul>
                 </section>
             </section>
             <hr>
