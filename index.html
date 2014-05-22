@@ -24,6 +24,8 @@
         <script src="components/modernizr/modernizr.js"></script>
         <script src="components/savage-worlds/savage.js"></script>
         <script src="components/angular/angular.js"></script>
+        <script src="components/zeroclipboard/ZeroClipboard.min.js"></script>
+        <script src="components/ng-clip/dest/ng-clip.js"></script>
         <script src="lib/CharGen.js"></script>
 
     </head>
@@ -47,8 +49,8 @@
             </div>
         </div>
 
-        <div class="container" ng-app>
-            <section id="application" ng-controller="CharGen">
+        <div class="container" ng-app="app">
+            <section id="application" ng-controller="CharGenController">
                 <section>
                     <h1>1. Name &amp; Race</h1>
                     <p>Pick a name and your character's race. Humans gain an additional Edge.</p>
@@ -189,6 +191,14 @@
                             <button ng-click="character.hindrances.add(hindrance)" class="btn">{{hindrance.name}}</button>
                         </li>
                     </ul>
+                </section>
+
+                <section>
+                    <textarea class="text-representation character">{{character.toString()}}</textarea>
+                    <div>
+                        <a href="#" class="btn" clip-copy="character.toString()" clip-click="clipboardFeedback='Copied to Clipboard!'">Copy to clipboard</a>
+                        <span class="feedback">{{clipboardFeedback}}
+                    </div>
                 </section>
             </section>
             <hr>

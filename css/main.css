@@ -37,7 +37,10 @@ ul.three-column {
   -moz-columns: 3;
 }
 
-
+.text-representation {
+  width: 100%;
+  min-height: 450px;
+}
 
 
 
