@@ -1,0 +1,37 @@
+{
+  "name": "savage-worlds",
+  "main": "savage.min.js",
+  "homepage": "https://github.com/cajones/savage.js",
+  "authors": [
+    "chrisjones0099@hotmail.com"
+  ],
+  "moduleType": [
+    "amd",
+    "node"
+  ],
+  "keywords": [
+    "savage",
+    "worlds",
+    "rpg",
+    "character",
+    "generation"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "ef65ce6759",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "ef65ce675936d1e027286eb2d41b78b8ec96dec7"
+  },
+  "_source": "git://github.com/cajones/savage.js.git",
+  "_target": "*",
+  "_originalSource": "savage-worlds",
+  "_direct": true
+}
