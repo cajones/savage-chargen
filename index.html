@@ -45,14 +45,22 @@
                     <a class="navbar-brand" href="#">Savage Worlds Character Creator - Beta</a>
                 </div>
                 <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#Name">Name &amp; Race</a></li>
+                        <li><a href="#Attributes">Attributes</a></li>
+                        <li><a href="#Skills">Skills</a></li>
+                        <li><a href="#Hindrances">Hindrances</a></li>
+                        <li><a href="#Edges">Edges</a></li>
+                    </ul>
                 </div><!--/.navbar-collapse -->
             </div>
         </div>
 
-        <div class="container" ng-app="app">
-            <section id="application" ng-controller="CharGenController">
-                <section>
-                    <h1>1. Name &amp; Race</h1>
+        
+        <section id="application" ng-controller="CharGenController" ng-app="app">
+            <section class="alt">
+                <div class="container">
+                    <h1 id="Name">1. Name &amp; Race</h1>
                     <p>Pick a name and your character's race. Humans gain an additional Edge.</p>
                     <div>
                         <label>Name</label>
@@ -61,14 +69,17 @@
                     <div>
                         <label>Race</label>
                         <select ng-model="character.race" ng-options="race.name for race in races"></select>
-                </section>
-                
-                <section>
-                    <h2>2. Attributes</h2>
-                    <p>Define your hero's abilities by choosing thier attributes. Attributes make it easier for you to take skills related skills. You have <em>5 points</em> to spend.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <div class="container">
+                    <h1 id="Attributes">2. Attributes</h1>
+                    <p>Define your hero's abilities by choosing thier attributes. Attributes make it easier for you to take skills related skills. You have <em>{{characterLimits.attributePoints}} points</em> to spend.</p>
                     <div>
                         <label>Attribute Points Spent</label>
-                        <span>{{character.getAttributePoints()}}/5</span>
+                        <span ng-class="{'label':true, 'label-danger': characterLimits.isAttributesOver(character), 'label-default':  !characterLimits.isAttributesOver(character) }">{{character.getAttributePoints()}}/{{characterLimits.attributePoints}}</span>
                     </div>
                     <div>
                         <label>Agility</label>
@@ -113,14 +124,16 @@
                         <label>Charisma</label>
                         <span>{{character.charisma}}</span>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <section>
-                    <h1>3. Skills</h1>
-                    <p>Are you a lover or a fighter? a thug or a scolar? You have <em>15 points</em> to spend.</p>
+            <section class="alt">
+                <div class="container">
+                    <h1 id="Skills">3. Skills</h1>
+                    <p>Are you a lover or a fighter? a thug or a scolar? You have <em>{{characterLimits.skillPoints}} points</em> to spend.</p>
                     <div>
                         <label>Skill Points Spent</label>
-                        <span>{{character.getSkillPoints()}}/15</span>
+                        <span ng-class="{label:true, 'label-danger': characterLimits.isSkillsOver(character), 'label-default': !characterLimits.isSkillsOver(character)}">{{character.getSkillPoints()}}/{{characterLimits.skillPoints}}</span>
                     </div>
                     
                     <ul class="skills three-column">
@@ -167,10 +180,13 @@
                             </ul>
                         </li>
                     </ul>
-                </section>
+                </div>
+            </section>
 
-                <section>
-                    <h1>4. Edges &amp; Hinderances</h1>
+            <section>
+                <div class="container">
+                    <h1 id="Hindrances">4. Hindrances</h1>
+                    <p>A character may take one Major Hindrance and up to two Minor Hindrances. You’re free to take more if you think they fit your character description, but you don’t get additional points for them.</p>
                     <ul class="hindrances">
                         <li ng-repeat="hindrance in character.hindrances">
                             <label>{{hindrance.name}}</label>
@@ -181,27 +197,34 @@
                     </ul>
                     <h2>Available Minor Hindrances</h2>
                     <ul class="hindrances three-column">
-                        <li ng-repeat="hindrance in availableMinorHindrances">
+                        <li ng-repeat="hindrance in availableMinorHindrances()">
                             <button ng-click="character.hindrances.add(hindrance)" class="btn">{{hindrance.name}}</button>
                         </li>
                     </ul>
                     <h2>Available Major Hindrances</h2>
                     <ul class="hindrances three-column">
-                        <li ng-repeat="hindrance in availableMajorHindrances">
+                        <li ng-repeat="hindrance in availableMajorHindrances()">
                             <button ng-click="character.hindrances.add(hindrance)" class="btn">{{hindrance.name}}</button>
                         </li>
                     </ul>
-                </section>
-
-                <section>
-                    <textarea class="text-representation character">{{character.toString()}}</textarea>
-                    <div>
-                        <a href="#" class="btn" clip-copy="character.toString()" clip-click="clipboardFeedback='Copied to Clipboard!'">Copy to clipboard</a>
-                        <span class="feedback">{{clipboardFeedback}}
-                    </div>
-                </section>
+                </div>
             </section>
-            <hr>
-        </div> <!-- /container -->
+
+            <section class="alt">
+                <div class="container">
+                    <h1 id="Edges">5. Edges</h1>
+                    <h2 class="well">Coming Soon</h2>
+                    <p></p>
+                </div>
+            </section>
+
+            <section class="container">
+                <textarea class="text-representation character">{{character.toString()}}</textarea>
+                <div>
+                    <a href="#" class="btn" clip-copy="character.toString()" clip-click="clipboardFeedback='Copied to Clipboard!'">Copy to clipboard</a>
+                    <span class="feedback">{{clipboardFeedback}}
+                </div>
+            </section>
+        </section>
     </body>
 </html>

@@ -32,6 +32,5 @@
   },
   "_source": "git://github.com/cajones/savage.js.git",
   "_target": "*",
-  "_originalSource": "savage-worlds",
-  "_direct": true
+  "_originalSource": "savage-worlds"
 }
