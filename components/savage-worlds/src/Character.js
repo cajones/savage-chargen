@@ -2,7 +2,7 @@ var Collection = require('./Collection');
 var Trait = require('./Trait');
 var Rank = require('./Rank');
 var Attribute = require('./Attribute');
-var Formatter = require('./Formatters');
+var Formatters = require('./Formatters');
 
 var Character = function (name) {
     this.name = name;
@@ -87,7 +87,7 @@ Character.prototype.learn = function (skill) {
 };
 
 Character.prototype.toString = function () {
-    Formatters.defaultFormatter.call(this);
+    return Formatters.defaultFormatter.call(this);
 };
 
 module.exports = Character;

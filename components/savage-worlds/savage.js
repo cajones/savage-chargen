@@ -17,7 +17,7 @@ var Collection = require('./Collection');
 var Trait = require('./Trait');
 var Rank = require('./Rank');
 var Attribute = require('./Attribute');
-var Formatter = require('./Formatters');
+var Formatters = require('./Formatters');
 
 var Character = function (name) {
     this.name = name;
@@ -102,7 +102,7 @@ Character.prototype.learn = function (skill) {
 };
 
 Character.prototype.toString = function () {
-    Formatters.defaultFormatter.call(this);
+    return Formatters.defaultFormatter.call(this);
 };
 
 module.exports = Character;
@@ -156,7 +156,7 @@ module.exports = Collection;
 },{}],4:[function(require,module,exports){
 var MarkdownCharacterFormatter = function () {
     var output = this.name + '\n' +
-    (this.race ? this.race.toString() : '') + this.rank.toString() + '\n' +
+    (this.race ? this.race.toString() + ' ' : '') + this.rank.toString() + '\n' +
     '===============================\n' +
     'Agility ' + this.agility.value + '\n' +
     'Smarts ' + this.smarts.value +  '\n' +
@@ -212,7 +212,7 @@ var Hindrance = function (name, severity, effect) {
 };
 
 Hindrance.prototype.toString = function () {
-    return this.name + '(' + this.severity +')';
+    return this.name;
 };
 
 Hindrance.AllThumbs = function () {

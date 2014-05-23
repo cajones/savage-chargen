@@ -14,7 +14,7 @@ var Hindrance = function (name, severity, effect) {
 };
 
 Hindrance.prototype.toString = function () {
-    return this.name + '(' + this.severity +')';
+    return this.name;
 };
 
 Hindrance.AllThumbs = function () {

@@ -1,6 +1,6 @@
 var MarkdownCharacterFormatter = function () {
     var output = this.name + '\n' +
-    (this.race ? this.race.toString() : '') + this.rank.toString() + '\n' +
+    (this.race ? this.race.toString() + ' ' : '') + this.rank.toString() + '\n' +
     '===============================\n' +
     'Agility ' + this.agility.value + '\n' +
     'Smarts ' + this.smarts.value +  '\n' +
