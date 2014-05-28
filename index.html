@@ -136,7 +136,7 @@
                         <span ng-class="{label:true, 'label-danger': characterLimits.isSkillsOver(character), 'label-default': !characterLimits.isSkillsOver(character)}">{{character.getSkillPoints()}}/{{characterLimits.skillPoints}}</span>
                     </div>
                     
-                    <ul class="skills three-column">
+                    <ul class="skills three-column acquired">
                         <li ng-repeat="skill in character.skills">
                             <label>{{skill.name}}</label>
                             <span>{{skill.value}}</span>

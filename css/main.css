@@ -44,28 +44,7 @@ ul.three-column {
     list-style-type: none;
 }
 
-.skills button:hover {
-    color: #333;
-    background-color: #F0F0F0;
+.btn:hover {
+    color: #fff;
+    background-color: #333;
 }
-
-.alt {
-    color: #F0F0F0;
-    background-color: #4D4744;
-}
-
-.alt .skills button {
-    color: #4D4744;
-}
-
-.alt .skills button:hover {
-    color: #4D4744;
-    background-color: #F0F0F0;
-}
-
-
-
-
-
-
-
