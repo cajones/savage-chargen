@@ -24,6 +24,14 @@ var Trait = function (initialValue) {
 Trait.prototype.increase = function () {
     return scale[++this.factor];
 };
+
+Trait.prototype.increaseTo =Trait.prototype.decreaseTo = function (value) {
+    if(scale.indexOf(value) > -1) {
+        this.factor = scale.indexOf(value);
+    }
+    return this;
+};
+
 Trait.prototype.decrease = function () {
     return scale[--this.factor];
 };

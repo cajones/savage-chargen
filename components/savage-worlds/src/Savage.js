@@ -15,6 +15,9 @@
         Attribute: require('./Attribute'),
         Skill: require('./Skill'),
         Race: require('./Race'),
-        Hindrance: require('./Hindrance')
+        Rank: require('./Rank'),
+        Hindrance: require('./Hindrance'),
+        Edge: require('./Edge'),
+        Edges: require('./Edges').extend(require('./CoreEdges'))
     };
 }));
