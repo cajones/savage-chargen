@@ -198,13 +198,13 @@
                     <h2>Available Minor Hindrances</h2>
                     <ul class="hindrances three-column">
                         <li ng-repeat="hindrance in availableMinorHindrances()">
-                            <button ng-click="character.hindrances.add(hindrance)" class="btn">{{hindrance.name}}</button>
+                            <button ng-click="character.hindrances.add(hindrance)" class="btn"><span class="glyphicon glyphicon-thumbs-down"></span> &nbsp;{{hindrance.name}}</button>
                         </li>
                     </ul>
                     <h2>Available Major Hindrances</h2>
                     <ul class="hindrances three-column">
                         <li ng-repeat="hindrance in availableMajorHindrances()">
-                            <button ng-click="character.hindrances.add(hindrance)" class="btn">{{hindrance.name}}</button>
+                            <button ng-click="character.hindrances.add(hindrance)" class="btn"><span class="glyphicon glyphicon-thumbs-down"></span> &nbsp;{{hindrance.name}}</button>
                         </li>
                     </ul>
                 </div>
@@ -213,8 +213,21 @@
             <section class="alt">
                 <div class="container">
                     <h1 id="Edges">5. Edges</h1>
-                    <h2 class="well">Coming Soon</h2>
                     <p></p>
+                    <ul class="edges">
+                        <li ng-repeat="edge in character.edges">
+                            <label>{{edge.name}}</label>
+                            <p>{{edge.effect}}</p>
+                            <button ng-click="character.edges.remove(edge)" class="btn">Remove</button>
+                        </li>
+                    </ul>
+                    <h2>Available Edges</h2>
+                    <ul class="edges three-column">
+                        <li ng-repeat="edge in availableEdges()">
+                            <button ng-click="character.edges.add(edge)" class="btn"><span class="glyphicon glyphicon-star"></span> &nbsp;{{edge.name}}</button>
+                        </li>
+                    </ul>
+                    
                 </div>
             </section>
 

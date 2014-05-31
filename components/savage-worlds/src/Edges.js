@@ -9,12 +9,13 @@ Object.defineProperty(Edges, 'extend', {
             imported.forEach(function (edge) {
                 this.add(edge.name, edge);
             }.bind(this));
-        }
-        if(typeof imported !== 'object') return;
-        for(var edge in imported) {
-            if(imported.hasOwnProperty(edge)) {
-                this.add(edge, imported[edge]);
-            }
+        } else {
+            if(typeof imported !== 'object') return;
+            for(var edge in imported) {
+                if(imported.hasOwnProperty(edge)) {
+                    this.add(edge.name, imported[edge]);
+                }
+            }    
         }
         return this;
     }

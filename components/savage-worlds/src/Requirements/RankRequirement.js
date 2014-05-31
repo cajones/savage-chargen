@@ -9,8 +9,7 @@ var RankRequirement = function (rank) {
 };
 
 RankRequirement.prototype.isMet = function (character) {
-    var firstLetterCaseInsensitiveMatch = new RegExp('^' + this.rank.name[0], 'i');
-    return firstLetterCaseInsensitiveMatch.test(character.rank.name);
+    return character.rank.xp >= this.rank.xp;
 };
 
 module.exports = RankRequirement;

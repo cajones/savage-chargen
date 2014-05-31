@@ -24,11 +24,11 @@
     "test",
     "tests"
   ],
-  "_release": "ce0839d00d",
+  "_release": "21c16c6a5e",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "ce0839d00d25ef568a08905448f8a66a7a2fbcf2"
+    "commit": "21c16c6a5eb84270f2e20aee9f20716ef8d1a842"
   },
   "_source": "git://github.com/cajones/savage.js.git",
   "_target": "*",

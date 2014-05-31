@@ -40,7 +40,7 @@ ul.three-column {
     min-height: 450px;
 }
 
-.skills li {
+.skills li, .edges li {
     list-style-type: none;
 }
 

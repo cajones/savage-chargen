@@ -12,7 +12,7 @@ Attribute.Strength = 'strength';
 Attribute.Vigor = 'vigor';
 
 module.exports = Attribute;
-},{"./Trait":11}],2:[function(require,module,exports){
+},{"./Trait":19}],2:[function(require,module,exports){
 var Collection = require('./Collection');
 var Trait = require('./Trait');
 var Rank = require('./Rank');
@@ -106,7 +106,7 @@ Character.prototype.toString = function () {
 };
 
 module.exports = Character;
-},{"./Attribute":1,"./Collection":3,"./Formatters":5,"./Rank":8,"./Trait":11}],3:[function(require,module,exports){
+},{"./Attribute":1,"./Collection":3,"./Formatters":8,"./Rank":11,"./Trait":19}],3:[function(require,module,exports){
 var Collection = function() {
     Object.defineProperty(this, 'length', {
         get: function () {
@@ -154,6 +154,133 @@ Collection.prototype = {
 };
 module.exports = Collection;
 },{}],4:[function(require,module,exports){
+var Attribute = require('./Attribute'),
+    Edge = require('./Edge');
+
+//All edges from Savage Worlds Deluxe
+module.exports = [
+
+    //Background Edges
+    new Edge('Alertness', Edge.requires('N'), '+2 Notice'),
+    new Edge('Ambidextrous', [Edge.requires('N'), Edge.requires(Attribute.Agility, 'd8')], 'Ignore -2 penalty for using off-hand'),
+    new Edge('Arcane Background', Edge.requires('N'), 'Allows access to supernatural powers'),
+    new Edge('Arcane Resistance', [Edge.requires('N'), Edge.requires(Attribute.Spirit, 'd8')], 'Armor 2 vs. magic, +2 to resist magic effects'),
+        new Edge('Improved Arcane Resistance', [Edge.requires('N'), Edge.requires('Arcane Resistance')], 'Armor 4 vs. magic, +4 to resist magic effects'),
+    new Edge('Attractive', [Edge.requires('N'), Edge.requires(Attribute.Vigor, 'd6')], 'Charisma +2'),
+        new Edge('Very Attractive', [Edge.requires('N'), Edge.requires('Attractive')], 'Charisma +4'),
+    new Edge('Berserk', [Edge.requires('N')], 'Smarts roll or go Berserk after being wounded; +2 Fighting and Strength rolls, -2 Parry, +2 Toughness; Roll of 1on Fighting die hits random adjacent target'),
+    new Edge('Brave', [Edge.requires('N'), Edge.requires(Attribute.Spirit, 'd6')], '+2 to Fear tests'),
+    new Edge('Brawny', [Edge.requires('N'), Edge.requires(Attribute.Strength, 'd6'), Edge.requires(Attribute.Vigor, 'd6')], 'Toughness +1; load limit is 8xStr instead of 5xStr'),
+    new Edge('Fast Healer', [Edge.requires('N'), Edge.requires(Attribute.Vigor, 'd8')], '+2 to natural healing rolls'),
+    new Edge('Fleet-Footed', [Edge.requires('N'), Edge.requires(Attribute.Agility, 'd6')], '+2 Pace, d10 running die instead of d6'),
+    new Edge('Linguist', [Edge.requires('N'), Edge.requires(Attribute.Smarts, 'd6')], 'Begin play with a number of languages equal to Smarts; Smarts –2 to be understood in any language heard for a week'),
+    new Edge('Luck', [Edge.requires('N')], '+1 Benny per session'),
+        new Edge('Great Luck', [Edge.requires('N')], '+2 Benny per session'),
+    new Edge('Noble', [Edge.requires('N')], '+2 Charisma; Character is noble born with status and wealth'),
+    new Edge('Quick', [Edge.requires('N'), Edge.requires(Attribute.Agility, 'd8')], 'Discard draw of 5 or less for new card'),
+    new Edge('Rich', [Edge.requires('N')], '3x starting funds, $75K annual salary'),
+        new Edge('Filty rich', [Edge.requires('N'), Edge.requires.either('Rich', 'Noble')], '5x starting funds, $250K annual salary'),
+
+    //Combat Edges
+
+];
+
+},{"./Attribute":1,"./Edge":5}],5:[function(require,module,exports){
+var Edge = function (name, requirements, effect) {
+    Object.defineProperty(this, 'name', {
+        value: name
+    });
+    Object.defineProperty(this, 'requirements', {
+        value: Array.isArray(requirements) ? requirements : [requirements]
+    });
+    Object.defineProperty(this, 'effect', {
+        value: effect
+    });
+};
+
+Edge.prototype.isAvailableTo = function (character) {
+    return this.requirements.reduce(function (previous, requirement) {
+        return previous && requirement.isMet(character);
+    }, true);
+};
+
+Edge.prototype.toString = function () {
+    return this.name;
+};
+
+Edge.requires = function (/*any*/) {
+    var Skill = require('./Skill'),
+        Attribute = require('./Attribute'),
+        Rank = require('./Rank'),
+        SkillRequirement = require('./Requirements/SkillRequirement'),
+        AttributeRequirement = require('./Requirements/AttributeRequirement'),
+        RankRequirement = require('./Requirements/RankRequirement'),
+        EdgeRequirement = require('./Requirements/EdgeRequirement');
+
+    if(arguments.length === 1) {
+        var obj = arguments[0];
+        if(Rank.isRank(obj)) {
+            return new RankRequirement(obj);    
+        }
+        if(typeof obj === 'object' && obj instanceof Skill) {
+            return new SkillRequirement(obj);
+        } else {    
+            return new EdgeRequirement(obj);
+        }
+    } else {
+        var name = arguments[0],
+            value = arguments[1],
+            linkedAttribute = arguments[2];
+
+        if(name === Attribute.Agility || name === Attribute.Smarts || name === Attribute.Spirit || name === Attribute.Strength || name === Attribute.Vigor) {
+            return new AttributeRequirement(name, value);
+        } else {
+            return new SkillRequirement(name, value, linkedAttribute);
+        }
+    }
+};
+
+Edge.requires.either = function (first, second) {
+    var EitherRequirement = require('./Requirements/EitherRequirement'),
+        EdgeRequirement = require('./Requirements/EdgeRequirement');
+
+    if(typeof first === 'string') {
+        first = new EdgeRequirement(second);
+    }
+    if(typeof second === 'string') {
+        second = new EdgeRequirement(second);
+    }
+
+    return new EitherRequirement(first, second);
+};
+
+module.exports = Edge;
+},{"./Attribute":1,"./Rank":11,"./Requirements/AttributeRequirement":12,"./Requirements/EdgeRequirement":13,"./Requirements/EitherRequirement":14,"./Requirements/RankRequirement":15,"./Requirements/SkillRequirement":16,"./Skill":18}],6:[function(require,module,exports){
+var Collection = require('./Collection');
+
+var Edges = new Collection();
+
+Object.defineProperty(Edges, 'extend', {
+    enumerable: false,
+    value: function (imported) {
+        if(Array.isArray(imported)) {
+            imported.forEach(function (edge) {
+                this.add(edge.name, edge);
+            }.bind(this));
+        } else {
+            if(typeof imported !== 'object') return;
+            for(var edge in imported) {
+                if(imported.hasOwnProperty(edge)) {
+                    this.add(edge.name, imported[edge]);
+                }
+            }    
+        }
+        return this;
+    }
+});
+
+module.exports = Edges;
+},{"./Collection":3}],7:[function(require,module,exports){
 var MarkdownCharacterFormatter = function () {
     var output = this.name + '\n' +
     (this.race ? this.race.toString() + ' ' : '') + this.rank.toString() + '\n' +
@@ -190,12 +317,12 @@ var MarkdownCharacterFormatter = function () {
 
 
 module.exports = MarkdownCharacterFormatter;
-},{}],5:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = {
     defaultFormatter: require('./MarkdownCharacterFormatter'),
     MarkdownCharacterFormatter: require('./MarkdownCharacterFormatter')
 };
-},{"./MarkdownCharacterFormatter":4}],6:[function(require,module,exports){
+},{"./MarkdownCharacterFormatter":7}],9:[function(require,module,exports){
 var Hindrance = function (name, severity, effect) {
     Object.defineProperty(this, 'name', {
         value: name
@@ -377,7 +504,7 @@ Hindrance.Young = function () {
 
 module.exports = Hindrance;
 
-},{}],7:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var Race = function (name) {
     this.name = name;
 };
@@ -388,7 +515,7 @@ Race.prototype.toString = function () {
 
 Race.Human = new Race('Human');
 module.exports = Race;
-},{}],8:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var Rank = function (xp) {
     this.xp = parseInt(xp) || 0;
     Object.defineProperty(this, 'name', {
@@ -409,12 +536,115 @@ var Rank = function (xp) {
     
 };
 
+Rank.prototype.increase = function (xp) {
+    this.xp += Math.max(0, parseInt(xp));
+    return this;
+};
+
 Rank.prototype.toString = function () {
-    return this.name + '(' + this.xp + ')';
+    return this.name;
+};
+
+Rank.Novice = Rank.N = function () {
+    return new Rank(0);
+};
+
+Rank.Seasoned = Rank.S = function () {
+    return new Rank(20);
+};
+
+Rank.Veteran = Rank.V = function () {
+    return new Rank(40);
+};
+
+Rank.Heroic = Rank.H = function () {
+    return new Rank(60);
+};
+
+Rank.Legendary = Rank.L = function () {
+    return new Rank(80);
+};
+
+Rank.create = function (name) {
+    if(this.isRank(name)) {
+        return Rank[name].call();
+    }
+    return Rank.Novice();
+};
+
+Rank.isRank = function (name) {
+    if(name instanceof Rank) return true;
+    var isRank = /^N(ovice)?$|^S(easoned)?$|^V(eteran)?$|^H(eroic)?$|^L(egendary)?$/i;
+    return isRank.test(name);
 };
 
 module.exports = Rank;
-},{}],9:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
+var Trait = require('../Trait');
+var AttributeRequirement = function (attribute, value) {
+    this.attribute = attribute;
+    this.value = new Trait(value);
+};
+
+AttributeRequirement.prototype.isMet = function (character) {
+    return character[this.attribute].factor >= this.value.factor;
+};
+
+module.exports = AttributeRequirement;
+},{"../Trait":19}],13:[function(require,module,exports){
+var EdgeRequirement = function (edge) {
+    this.edge = edge;
+};
+
+EdgeRequirement.prototype.isMet = function (character) {
+    return character.edges.contains(this.edge);
+};
+
+module.exports = EdgeRequirement;
+},{}],14:[function(require,module,exports){
+var EitherRequirement = function(first, second) {
+	this.first = first;
+	this.second = second;	
+};
+
+EitherRequirement.prototype.isMet = function (character) {
+	return this.first.isMet(character) || this.second.isMet(character);
+};
+
+module.exports = EitherRequirement;
+},{}],15:[function(require,module,exports){
+var Rank = require('../Rank');
+
+var RankRequirement = function (rank) {
+    if(typeof rank === 'string') {
+        this.rank = Rank.create(rank);
+    } else {
+        this.rank = rank;
+    }
+};
+
+RankRequirement.prototype.isMet = function (character) {
+    return character.rank.xp >= this.rank.xp;
+};
+
+module.exports = RankRequirement;
+},{"../Rank":11}],16:[function(require,module,exports){
+var Skill = require('../Skill');
+
+var SkillRequirement = function (skill, optionalValue, optionallinkedAttribute) {
+    if(typeof skill === 'string' && arguments.length >= 2) {
+        this.skill = new Skill(optionalValue, skill, optionallinkedAttribute);
+    } else {
+        this.skill = skill;
+    }
+};
+
+SkillRequirement.prototype.isMet = function (character) {
+    return character.hasSkill(this.skill) && (character.skills[this.skill.name].factor >= this.skill.factor);
+};
+
+module.exports = SkillRequirement;
+},{"../Skill":18}],17:[function(require,module,exports){
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(function () {
@@ -432,10 +662,13 @@ module.exports = Rank;
         Attribute: require('./Attribute'),
         Skill: require('./Skill'),
         Race: require('./Race'),
-        Hindrance: require('./Hindrance')
+        Rank: require('./Rank'),
+        Hindrance: require('./Hindrance'),
+        Edge: require('./Edge'),
+        Edges: require('./Edges').extend(require('./CoreEdges'))
     };
 }));
-},{"./Attribute":1,"./Character":2,"./Hindrance":6,"./Race":7,"./Skill":10}],10:[function(require,module,exports){
+},{"./Attribute":1,"./Character":2,"./CoreEdges":4,"./Edge":5,"./Edges":6,"./Hindrance":9,"./Race":10,"./Rank":11,"./Skill":18}],18:[function(require,module,exports){
 var Trait = require('./Trait');
 var Attribute = require('./Attribute');
 
@@ -530,7 +763,7 @@ Skill.Climbing = function (specialty) {
 };
 
 module.exports = Skill;
-},{"./Attribute":1,"./Trait":11}],11:[function(require,module,exports){
+},{"./Attribute":1,"./Trait":19}],19:[function(require,module,exports){
 var scale = ['d4', 'd6', 'd8', 'd10', 'd12', 'd12+1', 'd12+2', 'd12+3', 'd12+4'];
 var Trait = function (initialValue) {
     var _factor = initialValue ? scale.indexOf(initialValue) : 0;
@@ -557,6 +790,14 @@ var Trait = function (initialValue) {
 Trait.prototype.increase = function () {
     return scale[++this.factor];
 };
+
+Trait.prototype.increaseTo =Trait.prototype.decreaseTo = function (value) {
+    if(scale.indexOf(value) > -1) {
+        this.factor = scale.indexOf(value);
+    }
+    return this;
+};
+
 Trait.prototype.decrease = function () {
     return scale[--this.factor];
 };
@@ -567,4 +808,4 @@ Trait.prototype.toString = function () {
 
 module.exports = Trait;
 
-},{}]},{},[1,2,3,4,5,6,7,8,9,10,11])
+},{}]},{},[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19])

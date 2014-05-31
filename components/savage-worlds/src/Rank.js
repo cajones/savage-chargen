@@ -23,6 +23,10 @@ Rank.prototype.increase = function (xp) {
     return this;
 };
 
+Rank.prototype.toString = function () {
+    return this.name;
+};
+
 Rank.Novice = Rank.N = function () {
     return new Rank(0);
 };

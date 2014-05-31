@@ -10,13 +10,9 @@ var Edge = function (name, requirements, effect) {
     });
 };
 
-Edge.prototype.isMet = function () {
-    return false;
-};
-
 Edge.prototype.isAvailableTo = function (character) {
-    return character.edges.reduce(function (previous, edge) {
-        return  previous && edge.isMet(character);
+    return this.requirements.reduce(function (previous, requirement) {
+        return previous && requirement.isMet(character);
     }, true);
 };
 
