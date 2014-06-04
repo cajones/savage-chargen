@@ -1,4 +1,4 @@
-var Edge = function (name, requirements, effect) {
+var Edge = function (name, requirements, effect, category, notes) {
     Object.defineProperty(this, 'name', {
         value: name
     });
@@ -8,6 +8,10 @@ var Edge = function (name, requirements, effect) {
     Object.defineProperty(this, 'effect', {
         value: effect
     });
+    Object.defineProperty(this, 'category', {
+        value: category || 'Edges'
+    });
+    this.notes = notes   || '';
 };
 
 Edge.prototype.isAvailableTo = function (character) {
@@ -32,7 +36,7 @@ Edge.requires = function (/*any*/) {
     if(arguments.length === 1) {
         var obj = arguments[0];
         if(Rank.isRank(obj)) {
-            return new RankRequirement(obj);    
+            return new RankRequirement(obj);
         }
         if(typeof obj === 'object' && obj instanceof Skill) {
             return new SkillRequirement(obj);
@@ -44,7 +48,7 @@ Edge.requires = function (/*any*/) {
             value = arguments[1],
             linkedAttribute = arguments[2];
 
-        if(name === Attribute.Agility || name === Attribute.Smarts || name === Attribute.Spirit || name === Attribute.Strength || name === Attribute.Vigor) {
+        if(Attribute.isAttribute(name)) {
             return new AttributeRequirement(name, value);
         } else {
             return new SkillRequirement(name, value, linkedAttribute);
