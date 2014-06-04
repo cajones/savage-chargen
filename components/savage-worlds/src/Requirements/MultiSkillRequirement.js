@@ -1,7 +1,7 @@
 var Trait = require('../Trait');
 
 var MultiSkillRequirement = function (value, expression, quantity) {
-    this.quantity = (quantity === undefined) ? 0 : parseInt(quantity);
+    this.quantity = (quantity === undefined) ? 1 : parseInt(quantity);
     this.expression = expression;
     this.trait = new Trait(value);
 };

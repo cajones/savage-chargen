@@ -80,7 +80,29 @@ module.exports = [
     new Edge('Mr. Fix It', Edge.requires('N'), '+2 to Repair rolls, 1/2 Repair time with raise', 'Professional Edges'),
     new Edge('Scholar', [Edge.requires('N'), Edge.requires.skills(/^Knowledge/, 'd8', 2)], '+2 to two different Knowledge skills', 'Professional Edges'),
     new Edge('Wizard', [Edge.requires('N'), Edge.requires('Arcane Background')], 'Each raise reduces cost of spell by 1 point', 'Professional Edges'),
-    new Edge('Woodsman', [Edge.requires('N'), Edge.requires(Attribute.Spirit, 'd6'), Edge.requires('Survival', 'd8'), Edge.requires('Tracking', 'd8')], '+2 Tracking Survival, and Stealth', 'Professional Edges')
+    new Edge('Woodsman', [Edge.requires('N'), Edge.requires(Attribute.Spirit, 'd6'), Edge.requires('Survival', 'd8'), Edge.requires('Tracking', 'd8')], '+2 Tracking Survival, and Stealth', 'Professional Edges'),
 
+    //Social Edges
+    new Edge('Connections', Edge.requires('N'), 'Call upon powerful friends', 'Social Edges'),
+    new Edge('Strong Willed', [Edge.requires('N'), Edge.requires('Initimidation', 'd6')], '+2 Intimidation and Taunt, +2 to resist', 'Social Edges'),
+    new Edge('Beast Bond', Edge.requires('N'), 'Character may spend bennies for his animals', 'Social Edges'),
+    new Edge('Beast Master', [Edge.requires('N'), Edge.requires(Attribute.Spirit, 'd8')], 'You gain an animal companion', 'Social Edges'),
+    new Edge('Danger Sense', Edge.requires('N'), 'Notice at -2 to detect surprise attacks/danger', 'Social Edges'),
+    new Edge('Healer', [Edge.requires('N'), Edge.requires(Attribute.Spirit, 'd8')], '+2 Healing', 'Social Edges'),
 
+    //Wild card Edges
+    new Edge('Dead Shot', [Edge.requires('S'), Edge.requires.either(Edge.requires('Shooting', 'd10'), Edge.requires('Shooting', 'd10'))], 'Double ranged damage when dealt Joker', 'Wild Card Edges'),
+    new Edge('Followers', Edge.requires('L'), 'Attract 5 henchmen', 'Wild Card Edges'),
+    new Edge('Mighty Blow', [Edge.requires('S'), Edge.requires('Fighting', 'd10')], 'Double melee damage when dealt Joker', 'Wild Card Edges'),
+    new Edge('Power Surge', [Edge.requires('S'), Edge.requires('Arcane Background')], '+2d6 Power Points when dealt a Joker', 'Wild Card Edges'),
+
+    //Legendary Edges
+    new Edge('Professional', [Edge.requires('L'), Edge.requires.skills(/./, 'd12')], 'Trait becomes d12+1', 'Legendary Edges'),
+    new Edge('Expert', [Edge.requires('L'), Edge.requires('Professional')], 'Trait becomes d12+2', 'Legendary Edges'),
+    new Edge('Master', [Edge.requires('L'), Edge.requires('Master')], 'Wild Die is d10 for one Trait', 'Legendary Edges'),
+    new Edge('Sidekick', Edge.requires('L'), 'Character gains a Novice WC sidekick', 'Legendary Edges'),
+    new Edge('Tough as Nails', Edge.requires('L'), 'Toughness +1', 'Legendary Edges'),
+        new Edge('Improved Tough as Nails', [Edge.requires('L'), Edge.requires('Tough as Nails')], 'Toughness +2', 'Legendary Edges'),
+    new Edge('Weapon Master', [Edge.requires('L'), Edge.requires('Fighting', 'd12')], 'Parry +1', 'Legendary Edges'),
+    new Edge('Master of Arms', [Edge.requires('L'), Edge.requires('Weapon Master')], 'Parry +2', 'Legendary Edges')
 ];

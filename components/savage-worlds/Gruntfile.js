@@ -40,5 +40,6 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('test',['mochaTest']);
-    grunt.registerTask('build',['browserify']);
+    grunt.registerTask('build',['test', 'browserify']);
+    grunt.registerTask('default', 'build');
 };
