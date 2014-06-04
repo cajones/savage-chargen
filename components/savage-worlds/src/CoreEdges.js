@@ -9,7 +9,7 @@ module.exports = [
     new Edge('Ambidextrous', [Edge.requires('N'), Edge.requires(Attribute.Agility, 'd8')], 'Ignore -2 penalty for using off-hand', 'Background Edges'),
     new Edge('Arcane Background', Edge.requires('N'), 'Allows access to supernatural powers', 'Background Edges'),
     new Edge('Arcane Resistance', [Edge.requires('N'), Edge.requires(Attribute.Spirit, 'd8')], 'Armor 2 vs. magic, +2 to resist magic effects', 'Background Edges'),
-        new Edge('Improved Arcane Resistance', [Edge.requires('N'), Edge.requires('Arcane Resistance')], 'Armor 4 vs. magic, +4 to resist magic effects'), 'Background Edges',
+        new Edge('Improved Arcane Resistance', [Edge.requires('N'), Edge.requires('Arcane Resistance')], 'Armor 4 vs. magic, +4 to resist magic effects', 'Background Edges'),
     new Edge('Attractive', [Edge.requires('N'), Edge.requires(Attribute.Vigor, 'd6')], 'Charisma +2', 'Background Edges'),
         new Edge('Very Attractive', [Edge.requires('N'), Edge.requires('Attractive')], 'Charisma +4', 'Background Edges'),
     new Edge('Berserk', [Edge.requires('N')], 'Smarts roll or go Berserk after being wounded; +2 Fighting and Strength rolls, -2 Parry, +2 Toughness; Roll of 1on Fighting die hits random adjacent target', 'Background Edges'),
@@ -66,7 +66,21 @@ module.exports = [
     new Edge('Power Points', [Edge.requires('N'), Edge.requires('Arcane Background')], '+5 Power Points, once per rank only', 'Weird Edges'),
     new Edge('Rapid Recharge', [Edge.requires('S'), Edge.requires(Attribute.Spirit, 'd6'), Edge.requires('Arcane Background')], 'Regain 1 Power Point every 30 minutes', 'Weird Edges'),
         new Edge('Improved Rapid Recharge', [Edge.requires('V'), Edge.requires('Rapid Recharge')], 'Regain 1 Power Point every 15 minutes', 'Weird Edges'),
-    new Edge('Soul Drain', [Edge.requires('S')], 'Drain energy from your own soul to get more power points', 'Weird Edges'),
+    new Edge('Soul Drain', [Edge.requires('S'), Edge.requires('Arcane Background'), Edge.requires('Knowledge (Arcana)', 'd10')], 'Drain energy from your own soul to get more power points', 'Weird Edges'),
     
+    //Professional Edges
+    new Edge('Ace', [Edge.requires('N'), Edge.requires(Attribute.Agility, 'd8')], '+2 to Boating, Driving, Piloting; may make soak rolls for vehicle at -2', 'Professional Edges'),
+    new Edge('Acrobat', [Edge.requires('N'), Edge.requires(Attribute.Agility, 'd8'), Edge.requires(Attribute.Strength, 'd6')], '+2 to nimbleness-based Agility rolls; +1 Parry if unencumbered','Professional Edges'),
+    new Edge('Gageteer', Edge.requires('N'), 'May “jury-rig” a device once per game session', 'Professional Edges'),
+    new Edge('Holy Warrior', Edge.requires('N'), 'Call upon your chosen deity to repulse evil creatures', 'Professional Edges'),
+    new Edge('Investigator', [Edge.requires('N'), Edge.requires(Attribute.Smarts, 'd8'), Edge.requires('Investigation', 'd8'), Edge.requires('Streetwise', 'd8')], '+2 Investigation and Streetwise', 'Professional Edges'),
+    new Edge('Jack-of-all-Trades', [Edge.requires('N'), Edge.requires(Attribute.Smarts, 'd10')], 'No -2 for unskilled Smarts based attempts', 'Professional Edges'),
+    new Edge('McGyver', [Edge.requires('N'), Edge.requires(Attribute.Smarts, 'd6'), Edge.requires('Repair', 'd6'), Edge.requires('Notice', 'd8')], 'Professional Edges'),
+    new Edge('Mentalist', [Edge.requires('N'), Edge.requires('Arcane Background'), Edge.requires(Attribute.Smarts, 'd8'), Edge.requires('Psionics', 'd6')], '+2 to any opposed Psionics roll', 'Professional Edges'),
+    new Edge('Mr. Fix It', Edge.requires('N'), '+2 to Repair rolls, 1/2 Repair time with raise', 'Professional Edges'),
+    new Edge('Scholar', [Edge.requires('N'), Edge.requires.skills(/^Knowledge/, 'd8', 2)], '+2 to two different Knowledge skills', 'Professional Edges'),
+    new Edge('Wizard', [Edge.requires('N'), Edge.requires('Arcane Background')], 'Each raise reduces cost of spell by 1 point', 'Professional Edges'),
+    new Edge('Woodsman', [Edge.requires('N'), Edge.requires(Attribute.Spirit, 'd6'), Edge.requires('Survival', 'd8'), Edge.requires('Tracking', 'd8')], '+2 Tracking Survival, and Stealth', 'Professional Edges')
+
 
 ];

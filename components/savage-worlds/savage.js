@@ -18,7 +18,7 @@ Attribute.isAttribute = function (name) {
 };
 
 module.exports = Attribute;
-},{"./Trait":19}],2:[function(require,module,exports){
+},{"./Trait":20}],2:[function(require,module,exports){
 var Collection = require('./Collection');
 var Trait = require('./Trait');
 var Rank = require('./Rank');
@@ -112,7 +112,7 @@ Character.prototype.toString = function () {
 };
 
 module.exports = Character;
-},{"./Attribute":1,"./Collection":3,"./Formatters":8,"./Rank":11,"./Trait":19}],3:[function(require,module,exports){
+},{"./Attribute":1,"./Collection":3,"./Formatters":8,"./Rank":11,"./Trait":20}],3:[function(require,module,exports){
 var Collection = function() {
     Object.defineProperty(this, 'length', {
         get: function () {
@@ -171,7 +171,7 @@ module.exports = [
     new Edge('Ambidextrous', [Edge.requires('N'), Edge.requires(Attribute.Agility, 'd8')], 'Ignore -2 penalty for using off-hand', 'Background Edges'),
     new Edge('Arcane Background', Edge.requires('N'), 'Allows access to supernatural powers', 'Background Edges'),
     new Edge('Arcane Resistance', [Edge.requires('N'), Edge.requires(Attribute.Spirit, 'd8')], 'Armor 2 vs. magic, +2 to resist magic effects', 'Background Edges'),
-        new Edge('Improved Arcane Resistance', [Edge.requires('N'), Edge.requires('Arcane Resistance')], 'Armor 4 vs. magic, +4 to resist magic effects'), 'Background Edges',
+        new Edge('Improved Arcane Resistance', [Edge.requires('N'), Edge.requires('Arcane Resistance')], 'Armor 4 vs. magic, +4 to resist magic effects', 'Background Edges'),
     new Edge('Attractive', [Edge.requires('N'), Edge.requires(Attribute.Vigor, 'd6')], 'Charisma +2', 'Background Edges'),
         new Edge('Very Attractive', [Edge.requires('N'), Edge.requires('Attractive')], 'Charisma +4', 'Background Edges'),
     new Edge('Berserk', [Edge.requires('N')], 'Smarts roll or go Berserk after being wounded; +2 Fighting and Strength rolls, -2 Parry, +2 Toughness; Roll of 1on Fighting die hits random adjacent target', 'Background Edges'),
@@ -228,8 +228,22 @@ module.exports = [
     new Edge('Power Points', [Edge.requires('N'), Edge.requires('Arcane Background')], '+5 Power Points, once per rank only', 'Weird Edges'),
     new Edge('Rapid Recharge', [Edge.requires('S'), Edge.requires(Attribute.Spirit, 'd6'), Edge.requires('Arcane Background')], 'Regain 1 Power Point every 30 minutes', 'Weird Edges'),
         new Edge('Improved Rapid Recharge', [Edge.requires('V'), Edge.requires('Rapid Recharge')], 'Regain 1 Power Point every 15 minutes', 'Weird Edges'),
-    new Edge('Soul Drain', [Edge.requires('S')], 'Drain energy from your own soul to get more power points', 'Weird Edges'),
+    new Edge('Soul Drain', [Edge.requires('S'), Edge.requires('Arcane Background'), Edge.requires('Knowledge (Arcana)', 'd10')], 'Drain energy from your own soul to get more power points', 'Weird Edges'),
     
+    //Professional Edges
+    new Edge('Ace', [Edge.requires('N'), Edge.requires(Attribute.Agility, 'd8')], '+2 to Boating, Driving, Piloting; may make soak rolls for vehicle at -2', 'Professional Edges'),
+    new Edge('Acrobat', [Edge.requires('N'), Edge.requires(Attribute.Agility, 'd8'), Edge.requires(Attribute.Strength, 'd6')], '+2 to nimbleness-based Agility rolls; +1 Parry if unencumbered','Professional Edges'),
+    new Edge('Gageteer', Edge.requires('N'), 'May “jury-rig” a device once per game session', 'Professional Edges'),
+    new Edge('Holy Warrior', Edge.requires('N'), 'Call upon your chosen deity to repulse evil creatures', 'Professional Edges'),
+    new Edge('Investigator', [Edge.requires('N'), Edge.requires(Attribute.Smarts, 'd8'), Edge.requires('Investigation', 'd8'), Edge.requires('Streetwise', 'd8')], '+2 Investigation and Streetwise', 'Professional Edges'),
+    new Edge('Jack-of-all-Trades', [Edge.requires('N'), Edge.requires(Attribute.Smarts, 'd10')], 'No -2 for unskilled Smarts based attempts', 'Professional Edges'),
+    new Edge('McGyver', [Edge.requires('N'), Edge.requires(Attribute.Smarts, 'd6'), Edge.requires('Repair', 'd6'), Edge.requires('Notice', 'd8')], 'Professional Edges'),
+    new Edge('Mentalist', [Edge.requires('N'), Edge.requires('Arcane Background'), Edge.requires(Attribute.Smarts, 'd8'), Edge.requires('Psionics', 'd6')], '+2 to any opposed Psionics roll', 'Professional Edges'),
+    new Edge('Mr. Fix It', Edge.requires('N'), '+2 to Repair rolls, 1/2 Repair time with raise', 'Professional Edges'),
+    new Edge('Scholar', [Edge.requires('N'), Edge.requires.skills(/^Knowledge/, 'd8', 2)], '+2 to two different Knowledge skills', 'Professional Edges'),
+    new Edge('Wizard', [Edge.requires('N'), Edge.requires('Arcane Background')], 'Each raise reduces cost of spell by 1 point', 'Professional Edges'),
+    new Edge('Woodsman', [Edge.requires('N'), Edge.requires(Attribute.Spirit, 'd6'), Edge.requires('Survival', 'd8'), Edge.requires('Tracking', 'd8')], '+2 Tracking Survival, and Stealth', 'Professional Edges')
+
 
 ];
 
@@ -306,8 +320,14 @@ Edge.requires.either = function (first, second) {
     return new EitherRequirement(first, second);
 };
 
+Edge.requires.skills = function (expression, quanity, value) {
+    var MultiSkillRequirement = require('./Requirements/MultiSkillRequirement');
+
+    return new MultiSkillRequirement(quanity, expression, value);
+};
+
 module.exports = Edge;
-},{"./Attribute":1,"./Rank":11,"./Requirements/AttributeRequirement":12,"./Requirements/EdgeRequirement":13,"./Requirements/EitherRequirement":14,"./Requirements/RankRequirement":15,"./Requirements/SkillRequirement":16,"./Skill":18}],6:[function(require,module,exports){
+},{"./Attribute":1,"./Rank":11,"./Requirements/AttributeRequirement":12,"./Requirements/EdgeRequirement":13,"./Requirements/EitherRequirement":14,"./Requirements/MultiSkillRequirement":15,"./Requirements/RankRequirement":16,"./Requirements/SkillRequirement":17,"./Skill":19}],6:[function(require,module,exports){
 var Collection = require('./Collection');
 
 var Edges = new Collection();
@@ -643,7 +663,7 @@ AttributeRequirement.prototype.isMet = function (character) {
 };
 
 module.exports = AttributeRequirement;
-},{"../Trait":19}],13:[function(require,module,exports){
+},{"../Trait":20}],13:[function(require,module,exports){
 var EdgeRequirement = function (edge) {
     this.edge = edge;
 };
@@ -665,6 +685,23 @@ EitherRequirement.prototype.isMet = function (character) {
 
 module.exports = EitherRequirement;
 },{}],15:[function(require,module,exports){
+var Trait = require('../Trait');
+
+var MultiSkillRequirement = function (value, expression, quantity) {
+    this.quantity = (quantity === undefined) ? 0 : parseInt(quantity);
+    this.expression = expression;
+    this.trait = new Trait(value);
+};
+
+MultiSkillRequirement.prototype.isMet = function (character) {
+    return character.skills.filter(function (skill) {
+        console.log(skill.name, this.expression.test(skill.name), skill.factor, this.trait.factor)
+        return this.expression.test(skill.name) && skill.factor >= this.trait.factor;
+    }.bind(this)).length >= this.quantity;
+};
+
+module.exports = MultiSkillRequirement;
+},{"../Trait":20}],16:[function(require,module,exports){
 var Rank = require('../Rank');
 
 var RankRequirement = function (rank) {
@@ -680,7 +717,7 @@ RankRequirement.prototype.isMet = function (character) {
 };
 
 module.exports = RankRequirement;
-},{"../Rank":11}],16:[function(require,module,exports){
+},{"../Rank":11}],17:[function(require,module,exports){
 var Skill = require('../Skill');
 
 var SkillRequirement = function (skill, optionalValue, optionallinkedAttribute) {
@@ -696,7 +733,7 @@ SkillRequirement.prototype.isMet = function (character) {
 };
 
 module.exports = SkillRequirement;
-},{"../Skill":18}],17:[function(require,module,exports){
+},{"../Skill":19}],18:[function(require,module,exports){
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(function () {
@@ -720,7 +757,7 @@ module.exports = SkillRequirement;
         Edges: require('./Edges').extend(require('./CoreEdges'))
     };
 }));
-},{"./Attribute":1,"./Character":2,"./CoreEdges":4,"./Edge":5,"./Edges":6,"./Hindrance":9,"./Race":10,"./Rank":11,"./Skill":18}],18:[function(require,module,exports){
+},{"./Attribute":1,"./Character":2,"./CoreEdges":4,"./Edge":5,"./Edges":6,"./Hindrance":9,"./Race":10,"./Rank":11,"./Skill":19}],19:[function(require,module,exports){
 var Trait = require('./Trait');
 var Attribute = require('./Attribute');
 
@@ -815,7 +852,7 @@ Skill.Climbing = function (specialty) {
 };
 
 module.exports = Skill;
-},{"./Attribute":1,"./Trait":19}],19:[function(require,module,exports){
+},{"./Attribute":1,"./Trait":20}],20:[function(require,module,exports){
 var scale = ['d4', 'd6', 'd8', 'd10', 'd12', 'd12+1', 'd12+2', 'd12+3', 'd12+4'];
 var Trait = function (initialValue) {
     var _factor = initialValue ? scale.indexOf(initialValue) : 0;
@@ -860,4 +897,4 @@ Trait.prototype.toString = function () {
 
 module.exports = Trait;
 
-},{}]},{},[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19])
+},{}]},{},[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20])

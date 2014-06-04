@@ -70,4 +70,10 @@ Edge.requires.either = function (first, second) {
     return new EitherRequirement(first, second);
 };
 
+Edge.requires.skills = function (expression, quanity, value) {
+    var MultiSkillRequirement = require('./Requirements/MultiSkillRequirement');
+
+    return new MultiSkillRequirement(quanity, expression, value);
+};
+
 module.exports = Edge;
