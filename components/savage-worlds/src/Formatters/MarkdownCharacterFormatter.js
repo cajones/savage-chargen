@@ -9,22 +9,27 @@ var MarkdownCharacterFormatter = function () {
     'Vigor ' + this.vigor.value + '\n' +
     '\n' +
 
+    'Parry' + this.parry + '\n' +
+    'Toughness' + this.toughness + '\n' +
+    'Charisma' + this.charisma + '\n' +
+    '\n' +
+
     'Skills' + '\n' +
-    '------\n' +
+    '-------------------------------\n' +
     this.skills.reduce(function (previous, skill) {
         return previous + skill.name + ' ' +  skill.value + '\n';
     }, '') +
     '\n' +
 
     'Hindrances' + '\n' +
-    '----------\n' +
+    '-------------------------------\n' +
     this.hindrances.reduce(function (previous, hindrance) {
         return previous + hindrance.name + ' (' +  hindrance.severity + ')\n';
     }, '') +
     '\n' +
 
     'Edges' + '\n' +
-    '-----\n' +
+    '-------------------------------\n' +
     this.edges.reduce(function (previous, edge) {
         return previous + edge.name + '\n';
     }, '');
