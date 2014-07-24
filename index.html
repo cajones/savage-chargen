@@ -136,10 +136,10 @@
                         <span ng-class="{label:true, 'label-danger': characterLimits.isSkillsOver(character), 'label-default': !characterLimits.isSkillsOver(character)}">{{character.getSkillPoints()}}/{{characterLimits.skillPoints}}</span>
                     </div>
                     
-                    <ul class="skills three-column acquired">
+                    <ul class="skills acquired">
                         <li ng-repeat="skill in character.skills">
                             <label>{{skill.name}}</label>
-                            <span>{{skill.value}}</span>
+                            <span class="trait">{{skill.value}}</span>
                             <button ng-click="skill.decrease()" class="btn"><span class="glyphicon glyphicon-minus"></span></button>
                             <button ng-click="skill.increase()" class="btn"><span class="glyphicon glyphicon-plus"></span></button>
                             <button ng-click="character.skills.remove(skill.name)" class="btn">Unlearn</button>

@@ -44,6 +44,11 @@ ul.three-column {
     list-style-type: none;
 }
 
+.trait {
+    min-width: 40px;
+    display: inline-block;
+}
+
 .btn:hover {
     color: #fff;
     background-color: #333;
